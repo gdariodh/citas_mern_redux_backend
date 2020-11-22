@@ -2,6 +2,7 @@
 
 ### CONTIENE:
 
+- se trabaja con variables de entorno
 - autenticaciones de usuario
 - proteccion de rutas, solo para usuario
 - crud completo
