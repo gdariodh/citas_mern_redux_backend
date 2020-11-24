@@ -2,6 +2,7 @@ const User = require("./userModel");
 // librerias
 const { validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 exports.createUser = async (req, res) => {
   // TODO: errores de express validator
@@ -29,6 +30,7 @@ exports.createUser = async (req, res) => {
     return;
   }
 
+  // TODO: almacenar el nuevo usuario y asignar nuevo token.
   try {
     // crear el nuevo usuario
     user = new User(req.body);
@@ -36,8 +38,23 @@ exports.createUser = async (req, res) => {
     const hash = await bcrypt.hash(password, salt);
     // agregar el hash del password
     user.password = hash;
+    // almacenar el nuevo usuario en la db
     await user.save();
-    res.json({ msg: "Usuario creado" });
+
+    // buscamos el nuevo usuario registrado en la db para asignarle un nuevo token
+    const userToken = await User.findOne({ email });
+    const { name, username, _id } = userToken;
+    // crear y firmar un nuevo token
+    const token = jwt.sign(
+      {
+        name,
+        username,
+        _id,
+      },
+      process.env.SECRET_JWT,
+      { expiresIn: "8h" }
+    );
+    res.json({ msg: 'Usuario creado exitosamente', token });
   } catch (error) {
     console.log(error);
     res.status(500).json({ msg: "Hubo un problema al crear el usuario" });
