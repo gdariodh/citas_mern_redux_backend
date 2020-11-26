@@ -3,8 +3,6 @@ const router = express.Router();
 const userController = require("./userController");
 // librerias
 const { check } = require("express-validator");
-// prueba
-//router.get("/", (req, res) => res.json({ msg: "Listo para desarrollar xd" }));
 
 // TODO: Endpoints
 
@@ -15,7 +13,7 @@ router.post(
     check("email", "Email es obligatorio").notEmpty().isEmail(),
     check("password", "Password debe tener al menos 6 caracteres")
       .notEmpty()
-      .isLength({ min: 6 }),
+      .isLength({ min: 8 }),
     check("username", "Nombre del usuario es obligatorio").notEmpty(),
   ],
   userController.createUser

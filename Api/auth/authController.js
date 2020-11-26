@@ -7,6 +7,12 @@ const { validationResult } = require("express-validator");
 
 // Autentica a el usuario registrado
 exports.userAuth = async (req, res) => {
+  // validacion de errores de envio de datos
+  const error = validationResult(req);
+  if (!error.isEmpty()) {
+    return res.status(400).json({ error: error.array() });
+  }
+  
   // si el usuario no fue encontrado en la db con el dataMiddleware.
   if (!req.user) {
     res.status(401).json({ msg: "El usuario no existe" });
@@ -46,7 +52,7 @@ exports.userAuth = async (req, res) => {
   que inyecta authMiddleware, que extrae token de las cabeceras "Authorization" de la request.
 */
 exports.authUser = (req, res) => {
-  console.log(req.user);
+  //console.log(req.user);
   if (req.user) {
     res.json({ user: req.user });
   }
