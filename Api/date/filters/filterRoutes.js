@@ -10,7 +10,7 @@ router.get(
   filterController.getDateByCategory
 );
 // marca una cita como favorita
-router.post("/likes/:id", authMiddleware, filterController.handleLikes);
+router.post("/likes/:id", authMiddleware, filterController.setLikes);
 // eliminar cita favorita
 router.delete("/likes/:id", authMiddleware, filterController.deleteLikes);
 // retorna todas las citas favoritas

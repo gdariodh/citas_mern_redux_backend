@@ -10,15 +10,15 @@ exports.getDateByCategory = async (req, res) => {
     // filtrar citas de usuario autenticado
     const dates = await DateModel.find({ author: userId }).sort("-_id");
 
-    //filtrar esas citas de usuario por categoria
+    //filtrar esas citas de usuario por la categoria
     const datesByCategory = dates.filter((date) => date.category === category);
 
     if (datesByCategory.length === 0) {
       res
         .status(404)
-        .json({ msg: `No hay citas relacionadas con ${category}` });
+        .json({ msg: `No hay citas de #${category}` });
     } else {
-      res.json({ datesByCategory });
+      res.json({ dates: datesByCategory });
     }
   } catch (error) {
     console.log(error);
@@ -26,7 +26,7 @@ exports.getDateByCategory = async (req, res) => {
   }
 };
 
-exports.handleLikes = async (req, res) => {
+exports.setLikes = async (req, res) => {
   // extraer el id de la cita
   const dateId = req.params.id;
   // buscar cita
@@ -67,7 +67,7 @@ exports.getDatesByLikes = async (req, res) => {
     if (datesByLikes.length === 0) {
       res.status(404).json({ msg: `No hay citas favoritas` });
     } else {
-      res.json({ datesByLikes });
+      res.json({ dates: datesByLikes });
     }
   } catch (error) {
     console.log(error);

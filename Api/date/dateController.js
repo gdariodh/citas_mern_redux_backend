@@ -15,7 +15,7 @@ exports.createDate = async (req, res) => {
 
   try {
     await date.save();
-    res.json({ date });
+    res.json({ date, msg:"Cita creada" });
   } catch (error) {
     console.log(error);
     res.status(500).json({ msg: "Hubo un problema con el servidor" });
@@ -75,7 +75,7 @@ exports.editDate = async (req, res) => {
         new: true,
       });
 
-      res.json({ date, msg: "La cita ha sido actualizada" });
+      res.json({ date, msg: "Cita editada" });
     }
   } catch (error) {
     console.log(error);
