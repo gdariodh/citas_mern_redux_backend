@@ -7,7 +7,10 @@ const cors = require("cors");
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 // permitir acceso a la api
-app.use(cors());
+const configCors = {
+  origin: process.env.FRONTEND_URL,
+};
+app.use(cors(configCors));
 // rutas generales
 app.use("/api", routes);
 
